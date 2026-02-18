@@ -196,6 +196,37 @@ const scenarios = [
         }
       ]
     }
+  },
+  {
+    name: "monorepo-project-references-element-types",
+    file: "fixtures/monorepo/packages/app/src/reference-consumer.ts",
+    settings: {
+      "import/resolver": {
+        typescript: {
+          project: path.resolve(__dirname, "fixtures/monorepo/packages/app/tsconfig.json")
+        }
+      },
+      "boundaries/elements": [
+        { type: "app", pattern: "test/fixtures/monorepo/packages/app/src/*.ts" },
+        { type: "lib-public", pattern: "test/fixtures/monorepo/packages/lib/src/public.ts" },
+        { type: "lib-private", pattern: "test/fixtures/monorepo/packages/lib/src/private/*.ts" }
+      ]
+    },
+    rules: {
+      "boundaries/element-types": [
+        "error",
+        {
+          default: "allow",
+          rules: [
+            {
+              from: "app",
+              disallow: ["lib-private"],
+              message: "app cannot import referenced private internals"
+            }
+          ]
+        }
+      ]
+    }
   }
 ];
 
