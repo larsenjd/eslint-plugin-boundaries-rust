@@ -2,6 +2,7 @@ const {
   analyzeDependency,
   createRuleContext,
   getCurrentFileAnalysis,
+  getDependencyReportNode,
   getDependencySource,
   isValidFileContext
 } = require("./_shared.cjs");
@@ -33,7 +34,7 @@ module.exports = {
 
       if (dependency.isLocal && dependency.to && !dependency.to.known) {
         context.report({
-          node,
+          node: getDependencyReportNode(node),
           message: "Importing unknown elements is not allowed"
         });
       }

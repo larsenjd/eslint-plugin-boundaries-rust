@@ -2,6 +2,7 @@ const {
   analyzeDependency,
   createRuleContext,
   getCurrentFileAnalysis,
+  getDependencyReportNode,
   getDependencySource,
   isValidFileContext
 } = require("./_shared.cjs");
@@ -47,7 +48,7 @@ module.exports = {
       const decision = evaluateRules(fromType, dependency.externalModule, options, "type");
       if (!decision.allowed) {
         context.report({
-          node,
+          node: getDependencyReportNode(node),
           message:
             decision.message ||
             `Usage of external module '${dependency.externalModule}' is not allowed in ${fromType}`

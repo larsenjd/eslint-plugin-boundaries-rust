@@ -8,6 +8,21 @@ const upstreamModule = require("eslint-plugin-boundaries");
 const upstreamPlugin = upstreamModule.default || upstreamModule;
 const strictParity = process.env.STRICT_PARITY === "1";
 
+function withFileMode(settings) {
+  const elements = settings["boundaries/elements"];
+  if (!Array.isArray(elements)) {
+    return settings;
+  }
+
+  return {
+    ...settings,
+    "boundaries/elements": elements.map((element) => ({
+      ...element,
+      mode: "file"
+    }))
+  };
+}
+
 const scenarios = [
   {
     name: "no-unknown-files",
@@ -125,8 +140,9 @@ const scenarios = [
 for (const scenario of scenarios) {
   test(`parity:${scenario.name}`, async () => {
     const file = path.resolve(__dirname, scenario.file);
-    const rustMessages = await runLintWithPlugin(file, rustPlugin, scenario.settings, scenario.rules);
-    const upstreamMessages = await runLintWithPlugin(file, upstreamPlugin, scenario.settings, scenario.rules);
+    const settings = withFileMode(scenario.settings);
+    const rustMessages = await runLintWithPlugin(file, rustPlugin, settings, scenario.rules);
+    const upstreamMessages = await runLintWithPlugin(file, upstreamPlugin, settings, scenario.rules);
 
     const rustNormalized = normalizeMessages(rustMessages);
     const upstreamNormalized = normalizeMessages(upstreamMessages);

@@ -1,5 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const resolveImport = require("eslint-module-utils/resolve").default;
 const { SETTINGS } = require("../settings.cjs");
 const { loadNative } = require("../native-loader.cjs");
 
@@ -137,7 +138,7 @@ function resolveLocalDependency(source, filename) {
     }
   }
 
-  return rawBase;
+  return null;
 }
 
 function getDependencySource(node) {
@@ -171,6 +172,32 @@ function getDependencySource(node) {
   return null;
 }
 
+function getDependencyReportNode(node) {
+  if (!node) {
+    return node;
+  }
+
+  if (node.type === "ImportDeclaration" || node.type === "ExportNamedDeclaration" || node.type === "ExportAllDeclaration") {
+    return node.source || node;
+  }
+
+  if (node.type === "ImportExpression") {
+    return node.source || node;
+  }
+
+  if (
+    node.type === "CallExpression" &&
+    node.callee &&
+    node.callee.type === "Identifier" &&
+    node.callee.name === "require"
+  ) {
+    const [arg] = node.arguments || [];
+    return arg || node;
+  }
+
+  return node;
+}
+
 function createRuleContext(context) {
   const native = loadNative();
   const settings = context.settings || {};
@@ -180,6 +207,7 @@ function createRuleContext(context) {
   const filename = context.filename;
 
   return {
+    context,
     native,
     settings,
     elements,
@@ -207,8 +235,8 @@ function parseExternalModuleName(source) {
 }
 
 function analyzeDependency(ruleContext, source) {
-  const { native, filename, rootPath, elements, ignore } = ruleContext;
-  const resolved = resolveLocalDependency(source, filename);
+  const { native, context, filename, rootPath, elements, ignore } = ruleContext;
+  const resolved = resolveImport(source, context) || resolveLocalDependency(source, filename);
   const externalModule = parseExternalModuleName(source);
 
   if (!resolved) {
@@ -254,6 +282,7 @@ module.exports = {
   analyzeDependency,
   getCurrentFileAnalysis,
   getDependencySource,
+  getDependencyReportNode,
   isValidFileContext,
   normalizeElements,
   normalizeIgnore,

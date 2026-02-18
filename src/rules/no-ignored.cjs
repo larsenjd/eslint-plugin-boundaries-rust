@@ -2,6 +2,7 @@ const {
   analyzeDependency,
   createRuleContext,
   getCurrentFileAnalysis,
+  getDependencyReportNode,
   getDependencySource,
   isValidFileContext
 } = require("./_shared.cjs");
@@ -37,7 +38,7 @@ module.exports = {
 
       if (dependency.to.known && !dependency.to.matchedElementType) {
         context.report({
-          node,
+          node: getDependencyReportNode(node),
           message: "Importing ignored files is not allowed"
         });
       }

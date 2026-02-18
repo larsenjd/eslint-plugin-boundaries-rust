@@ -2,6 +2,7 @@ const {
   analyzeDependency,
   createRuleContext,
   getCurrentFileAnalysis,
+  getDependencyReportNode,
   getDependencySource,
   isValidFileContext
 } = require("./_shared.cjs");
@@ -118,7 +119,7 @@ module.exports = {
 
       if (!decision.allowed) {
         context.report({
-          node,
+          node: getDependencyReportNode(node),
           message:
             decision.message ||
             `The entry point '${dependency.scope.internalPath}' is not allowed in ${dependency.to.matchedElementType}`

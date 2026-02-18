@@ -16,6 +16,7 @@ test("no-unknown-files passes for matched element", async () => {
       "boundaries/elements": [
         {
           type: "known",
+          mode: "file",
           pattern: "test/fixtures/known/src/*.ts"
         }
       ]
@@ -36,6 +37,7 @@ test("no-unknown-files reports unmatched file", async () => {
       "boundaries/elements": [
         {
           type: "known",
+          mode: "file",
           pattern: "test/fixtures/known/src/*.ts"
         }
       ]
@@ -57,14 +59,17 @@ test("no-unknown reports unresolved local import", async () => {
       "boundaries/elements": [
         {
           type: "feature",
+          mode: "file",
           pattern: "test/fixtures/rules/src/feature/*.ts"
         },
         {
           type: "shared",
+          mode: "file",
           pattern: "test/fixtures/rules/src/shared/*.ts"
         },
         {
           type: "ignored",
+          mode: "file",
           pattern: "test/fixtures/rules/src/ignored/*.ts"
         }
       ]
@@ -86,10 +91,12 @@ test("no-ignored reports ignored local import", async () => {
       "boundaries/elements": [
         {
           type: "feature",
+          mode: "file",
           pattern: "test/fixtures/rules/src/feature/*.ts"
         },
         {
           type: "shared",
+          mode: "file",
           pattern: "test/fixtures/rules/src/shared/*.ts"
         }
       ],
@@ -112,14 +119,17 @@ test("element-types disallow rule reports invalid dependency", async () => {
       "boundaries/elements": [
         {
           type: "feature",
+          mode: "file",
           pattern: "test/fixtures/rules/src/feature/*.ts"
         },
         {
           type: "shared",
+          mode: "file",
           pattern: "test/fixtures/rules/src/shared/*.ts"
         },
         {
           type: "ignored",
+          mode: "file",
           pattern: "test/fixtures/rules/src/ignored/*.ts"
         }
       ]
@@ -154,6 +164,7 @@ test("external disallow rule reports invalid package usage", async () => {
       "boundaries/elements": [
         {
           type: "feature",
+          mode: "file",
           pattern: "test/fixtures/rules/src/feature/*.ts"
         }
       ]
@@ -188,10 +199,12 @@ test("entry-point disallow rule reports private entry usage", async () => {
       "boundaries/elements": [
         {
           type: "feature",
+          mode: "file",
           pattern: "test/fixtures/rules/src/feature/*.ts"
         },
         {
           type: "component",
+          mode: "file",
           pattern: "test/fixtures/rules/src/components/*/*.ts"
         }
       ]
@@ -217,7 +230,7 @@ test("entry-point disallow rule reports private entry usage", async () => {
   assert.equal(messages[0].message, "component private modules are not valid entry points");
 });
 
-test("no-private reports deep import into another element", async () => {
+test("no-private ignores deep import into a different element type", async () => {
   const file = path.resolve(__dirname, "fixtures/rules/src/feature/entry-consumer.ts");
   const messages = await runLint(
     file,
@@ -225,10 +238,12 @@ test("no-private reports deep import into another element", async () => {
       "boundaries/elements": [
         {
           type: "feature",
+          mode: "file",
           pattern: "test/fixtures/rules/src/feature/*.ts"
         },
         {
           type: "component",
+          mode: "file",
           pattern: "test/fixtures/rules/src/components/*/*.ts"
         }
       ]
@@ -238,8 +253,7 @@ test("no-private reports deep import into another element", async () => {
     }
   );
 
-  assert.equal(messages.length, 1);
-  assert.equal(messages[0].ruleId, "boundaries/no-private");
+  assert.equal(messages.length, 0);
 });
 
 test("no-private allows importing declared entry point", async () => {
@@ -250,10 +264,12 @@ test("no-private allows importing declared entry point", async () => {
       "boundaries/elements": [
         {
           type: "feature",
+          mode: "file",
           pattern: "test/fixtures/rules/src/feature/*.ts"
         },
         {
           type: "component",
+          mode: "file",
           pattern: "test/fixtures/rules/src/components/*/*.ts"
         }
       ]

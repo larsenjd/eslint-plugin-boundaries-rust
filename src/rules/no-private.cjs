@@ -2,6 +2,7 @@ const {
   analyzeDependency,
   createRuleContext,
   getCurrentFileAnalysis,
+  getDependencyReportNode,
   getDependencySource,
   isValidFileContext
 } = require("./_shared.cjs");
@@ -54,7 +55,11 @@ module.exports = {
         return;
       }
 
-      if (current.matchedElementType === dependency.to.matchedElementType && current.scope.base === dependency.scope.base) {
+      if (current.matchedElementType !== dependency.to.matchedElementType) {
+        return;
+      }
+
+      if (current.scope.base === dependency.scope.base) {
         return;
       }
 
@@ -63,7 +68,7 @@ module.exports = {
       }
 
       context.report({
-        node,
+        node: getDependencyReportNode(node),
         message:
           typeof options.message === "string"
             ? options.message

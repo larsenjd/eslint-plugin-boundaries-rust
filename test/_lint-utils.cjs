@@ -1,6 +1,15 @@
 const { ESLint } = require("eslint");
 
 async function runLintWithPlugin(targetFile, plugin, settings, rules) {
+  const mergedSettings = {
+    "import/resolver": {
+      node: {
+        extensions: [".js", ".jsx", ".mjs", ".cjs", ".ts", ".tsx", ".mts", ".cts", ".json"]
+      }
+    },
+    ...settings
+  };
+
   const eslint = new ESLint({
     overrideConfigFile: true,
     overrideConfig: [
@@ -13,7 +22,7 @@ async function runLintWithPlugin(targetFile, plugin, settings, rules) {
         plugins: {
           boundaries: plugin
         },
-        settings,
+        settings: mergedSettings,
         rules
       }
     ]
@@ -28,9 +37,7 @@ function normalizeMessages(messages) {
     .map((message) => ({
       ruleId: message.ruleId,
       line: message.line,
-      column: message.column,
-      endLine: message.endLine,
-      endColumn: message.endColumn
+      column: message.column
     }))
     .sort((a, b) => {
       if (a.ruleId !== b.ruleId) return a.ruleId < b.ruleId ? -1 : 1;

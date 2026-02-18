@@ -2,6 +2,7 @@ const {
   analyzeDependency,
   createRuleContext,
   getCurrentFileAnalysis,
+  getDependencyReportNode,
   getDependencySource,
   isValidFileContext
 } = require("./_shared.cjs");
@@ -48,7 +49,7 @@ module.exports = {
       const decision = evaluateRules(fromType, toType, options, "type");
       if (!decision.allowed) {
         context.report({
-          node,
+          node: getDependencyReportNode(node),
           message: decision.message || `Importing ${toType} is not allowed in ${fromType}`
         });
       }
