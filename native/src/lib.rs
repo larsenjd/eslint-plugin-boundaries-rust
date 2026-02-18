@@ -24,6 +24,8 @@ pub struct AnalyzeFileInput {
 pub struct AnalyzeFileResult {
   pub known: bool,
   pub matched_element_type: Option<String>,
+  pub matched_pattern: Option<String>,
+  pub relative_path: String,
 }
 
 fn compile_globset(patterns: &[String]) -> Result<GlobSet> {
@@ -61,6 +63,8 @@ pub fn analyze_file(input_json: String) -> Result<AnalyzeFileResult> {
       return Ok(AnalyzeFileResult {
         known: true,
         matched_element_type: None,
+        matched_pattern: None,
+        relative_path: relative_file,
       });
     }
   }
@@ -77,6 +81,8 @@ pub fn analyze_file(input_json: String) -> Result<AnalyzeFileResult> {
       return Ok(AnalyzeFileResult {
         known: true,
         matched_element_type: Some(element.r#type),
+        matched_pattern: Some(element.pattern),
+        relative_path: relative_file,
       });
     }
   }
@@ -84,5 +90,7 @@ pub fn analyze_file(input_json: String) -> Result<AnalyzeFileResult> {
   Ok(AnalyzeFileResult {
     known: false,
     matched_element_type: None,
+    matched_pattern: None,
+    relative_path: relative_file,
   })
 }

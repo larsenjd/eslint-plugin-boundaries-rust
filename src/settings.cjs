@@ -11,6 +11,7 @@ const RULE_SHORT_NAMES_MAP = {
 const SETTINGS = {
   ELEMENTS: "boundaries/elements",
   IGNORE: "boundaries/ignore",
+  ROOT_PATH: "boundaries/root-path",
   RULE_ENTRY_POINT: `boundaries/${RULE_SHORT_NAMES_MAP.ENTRY_POINT}`,
   RULE_ELEMENT_TYPES: `boundaries/${RULE_SHORT_NAMES_MAP.ELEMENT_TYPES}`,
   RULE_EXTERNAL: `boundaries/${RULE_SHORT_NAMES_MAP.EXTERNAL}`,
