@@ -281,3 +281,103 @@ test("no-private allows importing declared entry point", async () => {
 
   assert.equal(messages.length, 0);
 });
+
+test("monorepo ts-path alias element-types parity case", async () => {
+  const file = path.resolve(__dirname, "fixtures/monorepo/packages/app/src/consumer.ts");
+  const messages = await runLint(
+    file,
+    {
+      "import/resolver": {
+        typescript: {
+          project: path.resolve(__dirname, "fixtures/monorepo/tsconfig.base.json")
+        }
+      },
+      "boundaries/elements": [
+        {
+          type: "app",
+          mode: "file",
+          pattern: "test/fixtures/monorepo/packages/app/src/*.ts"
+        },
+        {
+          type: "lib-public",
+          mode: "file",
+          pattern: "test/fixtures/monorepo/packages/lib/src/public.ts"
+        },
+        {
+          type: "lib-private",
+          mode: "file",
+          pattern: "test/fixtures/monorepo/packages/lib/src/private/*.ts"
+        }
+      ]
+    },
+    {
+      "boundaries/element-types": [
+        "error",
+        {
+          default: "allow",
+          rules: [
+            {
+              from: "app",
+              disallow: ["lib-private"],
+              message: "app cannot import lib-private over alias"
+            }
+          ]
+        }
+      ]
+    }
+  );
+
+  assert.equal(messages.length, 1);
+  assert.equal(messages[0].ruleId, "boundaries/element-types");
+  assert.equal(messages[0].message, "app cannot import lib-private over alias");
+});
+
+test("monorepo workspace package-style alias element-types parity case", async () => {
+  const file = path.resolve(__dirname, "fixtures/monorepo/packages/app/src/workspace-consumer.ts");
+  const messages = await runLint(
+    file,
+    {
+      "import/resolver": {
+        typescript: {
+          project: path.resolve(__dirname, "fixtures/monorepo/tsconfig.base.json")
+        }
+      },
+      "boundaries/elements": [
+        {
+          type: "app",
+          mode: "file",
+          pattern: "test/fixtures/monorepo/packages/app/src/*.ts"
+        },
+        {
+          type: "lib-public",
+          mode: "file",
+          pattern: "test/fixtures/monorepo/packages/lib/src/public.ts"
+        },
+        {
+          type: "lib-private",
+          mode: "file",
+          pattern: "test/fixtures/monorepo/packages/lib/src/private/*.ts"
+        }
+      ]
+    },
+    {
+      "boundaries/element-types": [
+        "error",
+        {
+          default: "allow",
+          rules: [
+            {
+              from: "app",
+              disallow: ["lib-private"],
+              message: "app cannot import workspace private internals"
+            }
+          ]
+        }
+      ]
+    }
+  );
+
+  assert.equal(messages.length, 1);
+  assert.equal(messages[0].ruleId, "boundaries/element-types");
+  assert.equal(messages[0].message, "app cannot import workspace private internals");
+});

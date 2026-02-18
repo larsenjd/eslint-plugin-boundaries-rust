@@ -134,6 +134,68 @@ const scenarios = [
     rules: {
       "boundaries/no-private": "error"
     }
+  },
+  {
+    name: "monorepo-ts-alias-element-types",
+    file: "fixtures/monorepo/packages/app/src/consumer.ts",
+    settings: {
+      "import/resolver": {
+        typescript: {
+          project: path.resolve(__dirname, "fixtures/monorepo/tsconfig.base.json")
+        }
+      },
+      "boundaries/elements": [
+        { type: "app", pattern: "test/fixtures/monorepo/packages/app/src/*.ts" },
+        { type: "lib-public", pattern: "test/fixtures/monorepo/packages/lib/src/public.ts" },
+        { type: "lib-private", pattern: "test/fixtures/monorepo/packages/lib/src/private/*.ts" }
+      ]
+    },
+    rules: {
+      "boundaries/element-types": [
+        "error",
+        {
+          default: "allow",
+          rules: [
+            {
+              from: "app",
+              disallow: ["lib-private"],
+              message: "app cannot import lib-private over alias"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    name: "monorepo-workspace-alias-element-types",
+    file: "fixtures/monorepo/packages/app/src/workspace-consumer.ts",
+    settings: {
+      "import/resolver": {
+        typescript: {
+          project: path.resolve(__dirname, "fixtures/monorepo/tsconfig.base.json")
+        }
+      },
+      "boundaries/elements": [
+        { type: "app", pattern: "test/fixtures/monorepo/packages/app/src/*.ts" },
+        { type: "lib-public", pattern: "test/fixtures/monorepo/packages/lib/src/public.ts" },
+        { type: "lib-private", pattern: "test/fixtures/monorepo/packages/lib/src/private/*.ts" }
+      ]
+    },
+    rules: {
+      "boundaries/element-types": [
+        "error",
+        {
+          default: "allow",
+          rules: [
+            {
+              from: "app",
+              disallow: ["lib-private"],
+              message: "app cannot import workspace private internals"
+            }
+          ]
+        }
+      ]
+    }
   }
 ];
 

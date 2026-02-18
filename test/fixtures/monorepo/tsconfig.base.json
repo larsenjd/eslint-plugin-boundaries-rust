@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@lib/*": ["packages/lib/src/*"],
+      "@workspace/lib": ["packages/lib/src/index.ts"],
+      "@workspace/lib/*": ["packages/lib/src/*"]
+    }
+  }
+}

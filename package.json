@@ -31,8 +31,10 @@
   "devDependencies": {
     "@napi-rs/cli": "^2.18.4",
     "eslint": "^9.20.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-module-utils": "^2.12.1",
-    "eslint-plugin-boundaries": "^5.4.0"
+    "eslint-plugin-boundaries": "^5.4.0",
+    "typescript": "^5.9.2"
   },
   "packageManager": "pnpm@10.28.2"
 }

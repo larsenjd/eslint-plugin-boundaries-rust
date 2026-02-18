@@ -235,6 +235,18 @@ function parseExternalModuleName(source) {
 }
 
 function analyzeDependency(ruleContext, source) {
+  if (typeof source !== "string" || source.length === 0) {
+    return {
+      isLocal: false,
+      isExternal: false,
+      source,
+      externalModule: null,
+      resolvedPath: null,
+      to: null,
+      scope: null
+    };
+  }
+
   const { native, context, filename, rootPath, elements, ignore } = ruleContext;
   const resolved = resolveImport(source, context) || resolveLocalDependency(source, filename);
   const externalModule = parseExternalModuleName(source);
