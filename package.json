@@ -1,0 +1,33 @@
+{
+  "name": "eslint-plugin-boundries-rust",
+  "version": "0.1.0",
+  "description": "Rust-powered ESLint boundaries plugin (ESLint 9+)",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "dist/index.cjs",
+  "exports": {
+    ".": "./dist/index.cjs",
+    "./recommended": "./dist/configs/recommended.cjs",
+    "./strict": "./dist/configs/strict.cjs"
+  },
+  "files": [
+    "dist",
+    "native",
+    "Cargo.toml",
+    "Cargo.lock"
+  ],
+  "scripts": {
+    "build": "pnpm run build:native && pnpm run build:js",
+    "build:native": "napi build --cargo-cwd native --release",
+    "build:js": "rm -rf dist && cp -R src dist",
+    "test": "pnpm run build && node --test test/plugin.test.cjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^2.18.4",
+    "eslint": "^9.20.0"
+  },
+  "packageManager": "pnpm@10.28.2"
+}
