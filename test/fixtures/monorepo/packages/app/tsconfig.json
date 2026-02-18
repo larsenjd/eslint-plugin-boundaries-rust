@@ -2,13 +2,8 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "composite": true,
-    "baseUrl": ".",
     "rootDir": "./src",
-    "outDir": "./dist",
-    "paths": {
-      "@workspace/ref-lib": ["../lib/src/index.ts"],
-      "@workspace/ref-lib/*": ["../lib/src/*"]
-    }
+    "outDir": "./dist"
   },
   "include": ["src/**/*.ts"],
   "references": [{ "path": "../lib"}]

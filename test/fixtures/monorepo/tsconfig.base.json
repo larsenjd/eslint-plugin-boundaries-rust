@@ -4,7 +4,9 @@
     "paths": {
       "@lib/*": ["packages/lib/src/*"],
       "@workspace/lib": ["packages/lib/src/index.ts"],
-      "@workspace/lib/*": ["packages/lib/src/*"]
+      "@workspace/lib/*": ["packages/lib/src/*"],
+      "@workspace/ref-lib": ["packages/lib/src/index.ts"],
+      "@workspace/ref-lib/*": ["packages/lib/src/*"]
     }
   }
 }

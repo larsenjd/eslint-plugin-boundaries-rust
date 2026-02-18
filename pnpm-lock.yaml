@@ -24,7 +24,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.0(eslint-import-resolver-typescript@4.4.4(eslint@9.39.2))(eslint@9.39.2)
       typescript:
-        specifier: ^5.9.2
+        specifier: 5.9.3
         version: 5.9.3
 
 packages:
