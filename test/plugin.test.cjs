@@ -1,30 +1,11 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const path = require("node:path");
-const { ESLint } = require("eslint");
 const plugin = require("../dist/index.cjs");
+const { runLintWithPlugin } = require("./_lint-utils.cjs");
 
 async function runLint(targetFile, settings, rules) {
-  const eslint = new ESLint({
-    overrideConfigFile: true,
-    overrideConfig: [
-      {
-        files: ["**/*.ts"],
-        languageOptions: {
-          ecmaVersion: "latest",
-          sourceType: "module"
-        },
-        plugins: {
-          boundaries: plugin
-        },
-        settings,
-        rules
-      }
-    ]
-  });
-
-  const [result] = await eslint.lintFiles([targetFile]);
-  return result.messages;
+  return runLintWithPlugin(targetFile, plugin, settings, rules);
 }
 
 test("no-unknown-files passes for matched element", async () => {
