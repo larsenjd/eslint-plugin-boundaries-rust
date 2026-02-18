@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22]
+        typescript: ["5.9.3", "beta"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Set TypeScript version
+        run: pnpm add -D typescript@${{ matrix.typescript }}
+
+      - name: Implementation tests
+        run: pnpm run test:impl
+
+      - name: Strict parity tests
+        run: pnpm run test:parity:strict
+
+      - name: Pack install smoke test
+        run: pnpm run test:smoke:pack

@@ -12,6 +12,8 @@
   },
   "files": [
     "dist",
+    "index.node",
+    "index.d.ts",
     "native",
     "Cargo.toml",
     "Cargo.lock"
@@ -20,19 +22,27 @@
     "build": "pnpm run build:native && pnpm run build:js",
     "build:native": "napi build --cargo-cwd native --release",
     "build:js": "rm -rf dist && cp -R src dist",
+    "prepack": "pnpm run build",
+    "postinstall": "napi build --cargo-cwd native --release",
     "test:impl": "pnpm run build && node --test test/plugin.test.cjs",
     "test:parity": "pnpm run build && node --test test/parity.test.cjs",
     "test:parity:strict": "pnpm run build && STRICT_PARITY=1 node --test test/parity.test.cjs",
+    "test:smoke:pack": "node scripts/smoke-pack.cjs",
     "test": "pnpm run test:impl"
   },
   "engines": {
     "node": ">=20"
   },
+  "peerDependencies": {
+    "eslint": "^9.0.0"
+  },
+  "dependencies": {
+    "eslint-module-utils": "^2.12.1"
+  },
   "devDependencies": {
     "@napi-rs/cli": "^2.18.4",
     "eslint": "^9.20.0",
     "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-module-utils": "^2.12.1",
     "eslint-plugin-boundaries": "^5.4.0",
     "typescript": "5.9.3"
   },
