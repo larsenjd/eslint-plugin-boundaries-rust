@@ -1,4 +1,4 @@
-# eslint-plugin-boundries-rust
+# eslint-plugin-boundaries-rust
 
 Rust-powered ESLint 9+ boundaries plugin with upstream parity testing against `eslint-plugin-boundaries`.
 
@@ -13,13 +13,13 @@ Rust-powered ESLint 9+ boundaries plugin with upstream parity testing against `e
 ## Install
 
 ```bash
-pnpm add -D eslint-plugin-boundries-rust eslint-import-resolver-typescript
+pnpm add -D eslint-plugin-boundaries-rust eslint-import-resolver-typescript
 ```
 
 ## Usage (ESLint 9 flat config)
 
 ```js
-const boundaries = require("eslint-plugin-boundries-rust");
+const boundaries = require("eslint-plugin-boundaries-rust");
 
 module.exports = [
   {

@@ -1,5 +1,5 @@
 [package]
-name = "eslint_plugin_boundries_rust"
+name = "eslint_plugin_boundaries_rust"
 version = "0.1.0"
 edition = "2021"
 

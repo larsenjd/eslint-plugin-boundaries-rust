@@ -34,14 +34,14 @@ function platformTriples() {
 }
 
 function optionalPackageCandidates() {
-  return platformTriples().map((triple) => `eslint-plugin-boundries-rust-${triple}`);
+  return platformTriples().map((triple) => `eslint-plugin-boundaries-rust-${triple}`);
 }
 
 function candidateBinaryNames() {
   return [
     "index.node",
-    "eslint_plugin_boundries_rust.node",
-    ...platformTriples().map((triple) => `eslint_plugin_boundries_rust.${triple}.node`)
+    "eslint_plugin_boundaries_rust.node",
+    ...platformTriples().map((triple) => `eslint_plugin_boundaries_rust.${triple}.node`)
   ];
 }
 
@@ -70,7 +70,7 @@ function findNativeBinary() {
     const fallback = files.find(
       (file) =>
         file.endsWith(".node") &&
-        (file.includes("eslint_plugin_boundries_rust") || file === "index.node")
+        (file.includes("eslint_plugin_boundaries_rust") || file === "index.node")
     );
 
     if (fallback) {

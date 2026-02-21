@@ -13,7 +13,7 @@ function write(filePath, contents) {
 }
 
 const root = process.cwd();
-const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "boundries-smoke-"));
+const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "boundaries-smoke-"));
 const packDir = path.join(tempDir, "pack");
 const appDir = path.join(tempDir, "app");
 fs.mkdirSync(packDir, { recursive: true });
@@ -43,7 +43,7 @@ run(`npm install "${path.join(packDir, tarball)}"`, appDir);
 
 write(
   path.join(appDir, "eslint.config.cjs"),
-  `const plugin = require("eslint-plugin-boundries-rust");\n\nmodule.exports = [\n  {\n    files: ["**/*.ts"],\n    plugins: { boundaries: plugin },\n    settings: {\n      "boundaries/elements": [{ type: "x", mode: "file", pattern: "src/*.ts" }]\n    },\n    rules: {\n      "boundaries/no-unknown-files": "error"\n    }\n  }\n];\n`
+  `const plugin = require("eslint-plugin-boundaries-rust");\n\nmodule.exports = [\n  {\n    files: ["**/*.ts"],\n    plugins: { boundaries: plugin },\n    settings: {\n      "boundaries/elements": [{ type: "x", mode: "file", pattern: "src/*.ts" }]\n    },\n    rules: {\n      "boundaries/no-unknown-files": "error"\n    }\n  }\n];\n`
 );
 
 write(path.join(appDir, "src", "file.ts"), "export const ok = 1;\n");

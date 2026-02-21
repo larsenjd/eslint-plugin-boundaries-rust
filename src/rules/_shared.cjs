@@ -234,6 +234,21 @@ function parseExternalModuleName(source) {
   return source.split("/")[0];
 }
 
+function resolveDependencyPath(source, context, filename) {
+  try {
+    return resolveImport(source, context) || resolveLocalDependency(source, filename);
+  } catch (error) {
+    if (
+      error &&
+      typeof error.message === "string" &&
+      error.message.includes('unable to load resolver "node"')
+    ) {
+      return resolveLocalDependency(source, filename);
+    }
+    throw error;
+  }
+}
+
 function analyzeDependency(ruleContext, source) {
   if (typeof source !== "string" || source.length === 0) {
     return {
@@ -248,7 +263,7 @@ function analyzeDependency(ruleContext, source) {
   }
 
   const { native, context, filename, rootPath, elements, ignore } = ruleContext;
-  const resolved = resolveImport(source, context) || resolveLocalDependency(source, filename);
+  const resolved = resolveDependencyPath(source, context, filename);
   const externalModule = parseExternalModuleName(source);
 
   if (!resolved) {

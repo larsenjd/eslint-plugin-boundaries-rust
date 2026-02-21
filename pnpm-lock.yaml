@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      eslint-import-resolver-node:
+        specifier: ^0.3.9
+        version: 0.3.9
       eslint-module-utils:
         specifier: ^2.12.1
         version: 2.12.1(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@4.4.4(eslint@9.39.2))(eslint@9.39.2)

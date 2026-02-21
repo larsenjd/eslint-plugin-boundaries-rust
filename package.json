@@ -1,5 +1,5 @@
 {
-  "name": "eslint-plugin-boundries-rust",
+  "name": "eslint-plugin-boundaries-rust",
   "version": "0.1.0",
   "description": "Rust-powered ESLint boundaries plugin (ESLint 9+)",
   "license": "MIT",
@@ -11,8 +11,8 @@
     "./strict": "./dist/configs/strict.cjs"
   },
   "napi": {
-    "name": "eslint_plugin_boundries_rust",
-    "binaryName": "eslint_plugin_boundries_rust",
+    "name": "eslint_plugin_boundaries_rust",
+    "binaryName": "eslint_plugin_boundaries_rust",
     "targets": [
       "x86_64-pc-windows-msvc",
       "x86_64-apple-darwin",
@@ -55,6 +55,7 @@
     "eslint": "^9.0.0"
   },
   "dependencies": {
+    "eslint-import-resolver-node": "^0.3.9",
     "eslint-module-utils": "^2.12.1"
   },
   "devDependencies": {
@@ -66,8 +67,8 @@
   },
   "packageManager": "pnpm@10.28.2",
   "optionalDependencies": {
-    "eslint-plugin-boundries-rust-win32-x64-msvc": "0.1.0",
-    "eslint-plugin-boundries-rust-darwin-x64": "0.1.0",
-    "eslint-plugin-boundries-rust-linux-x64-gnu": "0.1.0"
+    "eslint-plugin-boundaries-rust-win32-x64-msvc": "0.1.0",
+    "eslint-plugin-boundaries-rust-darwin-x64": "0.1.0",
+    "eslint-plugin-boundaries-rust-linux-x64-gnu": "0.1.0"
   }
 }
