@@ -38,6 +38,7 @@
     "build:native:platform": "napi build --platform --cargo-cwd native --release",
     "build:js": "rm -rf dist && cp -R src dist",
     "create-npm-dirs": "napi create-npm-dir -t .",
+    "postinstall": "napi build --cargo-cwd native --release",
     "prepack": "pnpm run build",
     "prepublishOnly": "pnpm run build:native:platform && pnpm run build:js",
     "release:assemble-prebuilds": "pnpm run create-npm-dirs && pnpm run artifacts && pnpm run build:js",
@@ -67,8 +68,8 @@
   },
   "packageManager": "pnpm@10.28.2",
   "optionalDependencies": {
-    "eslint-plugin-boundaries-rust-win32-x64-msvc": "0.1.0",
-    "eslint-plugin-boundaries-rust-darwin-x64": "0.1.0",
-    "eslint-plugin-boundaries-rust-linux-x64-gnu": "0.1.0"
+    "eslint-plugin-boundaries-rust-win32-x64-msvc": "file:npm/win32-x64-msvc",
+    "eslint-plugin-boundaries-rust-darwin-x64": "file:npm/darwin-x64",
+    "eslint-plugin-boundaries-rust-linux-x64-gnu": "file:npm/linux-x64-gnu"
   }
 }
