@@ -8,6 +8,7 @@ Rust-powered ESLint 9+ boundaries plugin with upstream parity testing against `e
 - Rule surface compatible with `boundaries/*` rule names
 - Strict parity suite against upstream plugin for current fixture matrix
 - TypeScript monorepo coverage: path aliases, workspace-style aliases, and project references
+- Native prebuild release workflow (`.github/workflows/release-prebuilds.yml`) with source-build fallback via `postinstall`
 
 ## Install
 
@@ -54,3 +55,8 @@ module.exports = [
 - `pnpm run test:parity`: upstream parity suite (non-blocking drift logs)
 - `pnpm run test:parity:strict`: upstream parity hard gate
 - `pnpm run test:smoke:pack`: pack/install smoke test for published artifact behavior
+
+## Native distribution
+
+- CI release job builds platform binaries and publishes platform packages via `napi prepublish`.
+- Local fallback remains available: if no prebuilt package is available, `postinstall` builds from source (`napi build --cargo-cwd native --release`).

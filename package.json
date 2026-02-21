@@ -10,6 +10,19 @@
     "./recommended": "./dist/configs/recommended.cjs",
     "./strict": "./dist/configs/strict.cjs"
   },
+  "napi": {
+    "name": "eslint_plugin_boundries_rust",
+    "binaryName": "eslint_plugin_boundries_rust",
+    "targets": [
+      "x86_64-pc-windows-msvc",
+      "x86_64-apple-darwin",
+      "aarch64-apple-darwin",
+      "x86_64-unknown-linux-gnu",
+      "x86_64-unknown-linux-musl",
+      "aarch64-unknown-linux-gnu",
+      "aarch64-unknown-linux-musl"
+    ]
+  },
   "files": [
     "dist",
     "index.node",
@@ -19,11 +32,16 @@
     "Cargo.lock"
   ],
   "scripts": {
+    "artifacts": "napi artifacts",
     "build": "pnpm run build:native && pnpm run build:js",
     "build:native": "napi build --cargo-cwd native --release",
+    "build:native:platform": "napi build --platform --cargo-cwd native --release",
     "build:js": "rm -rf dist && cp -R src dist",
+    "create-npm-dirs": "napi create-npm-dir -t .",
     "prepack": "pnpm run build",
-    "postinstall": "napi build --cargo-cwd native --release",
+    "prepublishOnly": "pnpm run build:native:platform && pnpm run build:js",
+    "release:assemble-prebuilds": "pnpm run create-npm-dirs && pnpm run artifacts && pnpm run build:js",
+    "release:publish-prebuilds": "napi prepublish -t npm --skip-gh-release",
     "test:impl": "pnpm run build && node --test test/plugin.test.cjs",
     "test:parity": "pnpm run build && node --test test/parity.test.cjs",
     "test:parity:strict": "pnpm run build && STRICT_PARITY=1 node --test test/parity.test.cjs",
@@ -46,5 +64,10 @@
     "eslint-plugin-boundaries": "^5.4.0",
     "typescript": "5.9.3"
   },
-  "packageManager": "pnpm@10.28.2"
+  "packageManager": "pnpm@10.28.2",
+  "optionalDependencies": {
+    "eslint-plugin-boundries-rust-win32-x64-msvc": "0.1.0",
+    "eslint-plugin-boundries-rust-darwin-x64": "0.1.0",
+    "eslint-plugin-boundries-rust-linux-x64-gnu": "0.1.0"
+  }
 }
